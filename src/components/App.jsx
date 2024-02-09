@@ -21,7 +21,9 @@ export default class App extends Component {
        
       this.state.contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase())
         ? alert(`${name} is already in contacts.`)
-        : this.setState(prevState => ({ contacts: [...prevState.contacts, { id: `id-${this.state.contacts.length + 1}`, name: name, number: number }] }));
+        : this.setState(prevState => ({ contacts: [...prevState.contacts, { id: `id-${this.state.contacts.length + 1}`, name: name, number: number }] }),() => { 
+      localStorage.setItem("PHONEBOOK-DATA", JSON.stringify(this.state.contacts))
+    } );
     
     
   };
@@ -47,10 +49,19 @@ export default class App extends Component {
         console.log(newContacts)
         
       }
-      this.setState({contacts: newContacts})
+      this.setState({contacts: newContacts}, () => { 
+      localStorage.setItem("PHONEBOOK-DATA", JSON.stringify(this.state.contacts))
+    })
     })
     
  
+  }
+
+  componentDidMount() { 
+    const data = localStorage.getItem("PHONEBOOK-DATA")
+    if(data){ 
+      this.setState({ contacts: JSON.parse(data)})
+    }
   }
 
   render() {
