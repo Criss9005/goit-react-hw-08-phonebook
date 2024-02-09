@@ -10,6 +10,7 @@ export default class Form extends Component {
 
   handleAddNameNumber = (e, name) => {
     this.setState({ [name]: e.target.value })
+    
   }
  
 
