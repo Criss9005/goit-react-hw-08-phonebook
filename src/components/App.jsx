@@ -13,7 +13,7 @@ export default class App extends Component {
     ],
     filter: '',
     filteredContacts: [],
-      
+          
   };
 
   handleUpdateContacts = (e, number, name) => {
