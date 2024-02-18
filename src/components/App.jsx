@@ -53,8 +53,7 @@ export default function App() {
  
   useEffect(() => { 
     let data = localStorage.getItem("PHONEBOOK-DATA")
-   
-      if (JSON.parse(data) !== contacts ) {
+         if (JSON.parse(data) !== contacts ) {
         setContacts(JSON.parse(data))        
       }    
   }, [])
