@@ -10,8 +10,6 @@ export default function Filter({ filterValue, handleFilter }) {
                 value={filterValue}
                 onChange={(e) => handleFilter(e)}
             />
-           
-            
-        </div>
+    </div>
   )
 }

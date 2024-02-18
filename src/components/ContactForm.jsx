@@ -9,7 +9,6 @@ export default function ContactForm({ handleUpdateContacts }) {
 
   function handleAddNameNumber(e, param) {
     param === 'name'?  setName(e.target.value) : setNumber(e.target.value)
-    
   }
 
  

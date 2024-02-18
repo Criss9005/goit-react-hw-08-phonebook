@@ -13,7 +13,6 @@ export default function App() {
   const [filter, setFilter] = useState('')
   const [filteredContacts, setFilteredContacts] = useState([])
   
-
   function handleUpdateContacts(e, number, name) {
     
     if (contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase())) {

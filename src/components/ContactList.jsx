@@ -4,9 +4,7 @@ import React, { useState } from 'react'
 export default function ContactList({ contacts, filteredContacts, filter, handleDelete }) {
   const [deleted, setDeleted] = useState(0)
 
- 
   const listContacts = contacts.map(element => { 
-        
         return (<li key={element.id} >{element.name}: {element.number}
           <button className={styles.btn}
             onClick={(e) => { 
