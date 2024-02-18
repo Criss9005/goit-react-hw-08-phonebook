@@ -4,6 +4,7 @@ import Filter from './Filter'
 import React, { useEffect, useState } from 'react'
 
 export default function App() {
+
   const [contacts, setContacts] = useState([
       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
@@ -14,14 +15,13 @@ export default function App() {
   const [filteredContacts, setFilteredContacts] = useState([])
   
   function handleUpdateContacts(e, number, name) {
-    
     if (contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase())) {
       alert(`${name} is already in contacts.`)
 
     } else { 
        contacts.push({id:`id-${contacts.length + 1}`, name: name, number:number })
       localStorage.setItem("PHONEBOOK-DATA", JSON.stringify(contacts))
-      return setContacts(contacts)
+      setContacts(contacts)
 
     }
     
@@ -45,18 +45,20 @@ export default function App() {
       }
       setContacts(newContacts)
       localStorage.setItem("PHONEBOOK-DATA", JSON.stringify(contacts))
-    
+      
     })
     
   }
  
   useEffect(() => { 
-    let data = localStorage.getItem("PHONEBOOK-DATA")
-         if (JSON.parse(data) !== contacts ) {
-        setContacts(JSON.parse(data))        
-      }    
-  }, [contacts])
+    const data = localStorage.getItem("PHONEBOOK-DATA")
+    if (data) { 
+      console.log(JSON.parse(data))
+    setContacts(JSON.parse(data)) 
+    }
+  }, [])
 
+ 
 
   
    
