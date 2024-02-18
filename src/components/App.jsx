@@ -55,7 +55,7 @@ export default function App() {
          if (JSON.parse(data) !== contacts ) {
         setContacts(JSON.parse(data))        
       }    
-  }, [contacts])
+  }, [])
 
 
   
