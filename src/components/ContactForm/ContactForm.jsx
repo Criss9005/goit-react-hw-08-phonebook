@@ -1,14 +1,28 @@
+import { useState } from 'react'
 import styles from './ContactForm.module.css'
-import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addUser } from '../../redux/actions'
 
-export default function ContactForm({ handleUpdateContacts }) {
-  
+
+export default function ContactForm() {
   const [name, setName] = useState('')
-  const [number, setNumber] = useState('')
+  const [number, setNumber]= useState('')
+  const users = useSelector((state)=> state.users.contacts)
   
+  const dispatch = useDispatch()
 
-  function handleAddNameNumber(e, param) {
-    param === 'name'?  setName(e.target.value) : setNumber(e.target.value)
+  const handleUpdateContacts = (e) => { 
+    e.preventDefault()
+    const form = e.target.form
+    
+    if (users.some(contact => contact.name.toLowerCase() === name.toLowerCase())) {
+      alert(`${name} is already in contacts.`)
+
+    } else {
+      dispatch(addUser(name, number))
+    }
+
+    form.reset()
   }
 
  
@@ -20,7 +34,7 @@ export default function ContactForm({ handleUpdateContacts }) {
                 type="text"
                 name="name"
                 title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-                onChange={(e)=> handleAddNameNumber(e, 'name')}
+                onChange={(e)=> setName(e.target.value)}
                 required
             />
             <label className={styles.formLabel }>Number</label>
@@ -29,14 +43,11 @@ export default function ContactForm({ handleUpdateContacts }) {
                 name="number"
                 pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                 title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-                onChange={(e)=> handleAddNameNumber(e, 'number')}
+                onChange={(e)=> setNumber(e.target.value)}
                 required
             />
           
-        <button className={styles.btn} onClick={(e) => {
-          handleUpdateContacts(e, number, name)
-          
-        }
+        <button className={styles.btn} onClick={(e) => {handleUpdateContacts(e)}
         }>Add contact</button>
         </form>
   )

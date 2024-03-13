@@ -1,37 +1,41 @@
+import { useDispatch, useSelector } from 'react-redux'
 import styles from './ContactList.module.css'
-import React, { useState } from 'react'
+import { deleteUser } from '../../redux/actions'
 
-export default function ContactList({ contacts, filteredContacts, filter, handleDelete }) {
-  const [deleted, setDeleted] = useState(0)
 
-  const listContacts = contacts.map(element => { 
-        return (<li key={element.id} >{element.name}: {element.number}
-          <button className={styles.btn}
-            onClick={(e) => { 
-              handleDelete(e, element.id)
-              setDeleted(deleted+1)
-            }}
-          >Delete</button>
-        </li>)
-  })
+export default function ContactList({filteredContact }) {
+  const dispatch = useDispatch()
+  const users = useSelector((state) => state.users.contacts)
+  const filtered = useSelector((state) => state.users.filter)
+  let listContacts=[]
 
-  const listFiltered = filteredContacts.map(element => { 
-        
-        return (<li key={element.id} >{element.name}: {element.number}
-          <button className={styles.btn}
-            onClick={(e) => { 
-              handleDelete(e, element.id)
-              setDeleted(deleted+1)
-            }}
-          >Delete</button>
-        </li>)
-  })
+  if (filtered.filter) {
+    listContacts = filteredContact.map(element => {
+      return (<li key={element.id} >{element.name}: {element.number}
+        <button className={styles.btn}
+          onClick={(e) => {
+            dispatch(deleteUser(element.id))
+          }}
+        >Delete</button>
+      </li>)
+    })
 
+  }
+  else { 
+    listContacts = users.map(element => { 
+          return (<li key={element.id} >{element.name}: {element.number}
+            <button className={styles.btn}
+              onClick={(e) => { dispatch(deleteUser(element.id))           
+              }}
+            >Delete</button>
+          </li>)
+    })
+
+  }
+
+  
 
   return (
-    <ul>{filter.length <= 0
-      ?listContacts
-      :listFiltered
-      }</ul>
+    <ul>{listContacts }</ul>
   )
 }
