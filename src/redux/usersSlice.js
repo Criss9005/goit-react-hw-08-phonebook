@@ -1,35 +1,81 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+const url = 'https://65f30e87105614e6549fb3a3.mockapi.io/contacts/contacts';
 
 const initialState = {
-    contacts: [
-        { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-        { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-        { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-        { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+  contacts: {
+    items: [],
+    isLoading: false,
+    error: null
+  },
     filter: ""
 }
+
+export const getContacts = createAsyncThunk('users/getContacts', () => { 
+  return axios.get(url)
+    .then(function(response){
+      return response.data
+    })
+    .catch(function (error) {
+    // manejar error
+    console.log(error);
+  })
+})
 
 export const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    addUser: (state, action) => {
-      state.contacts.push(action.payload)
+    addContact: (state, action) => {
+      state.contacts.items.push(action.payload)
+      axios.post(url, {
+      name: action.payload.name,
+      number: action.payload.number,
+      id: action.payload.id
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
       
     },
-    deleteUser: (state, action) => {
-      const index = state.contacts.findIndex(user => user.id === action.payload)
-      state.contacts.splice(index,1)
-      },
+    deleteContact: (state, action) => {
+      const index = state.contacts.items.findIndex(user => user.id === action.payload)
+      state.contacts.items.splice(index, 1)
+      axios.delete(`https://65f30e87105614e6549fb3a3.mockapi.io/contacts/contacts/${action.payload }`)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      }); 
+    },
     filterUser: (state, action) => {
       state.filter = action.payload
       
     }
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getContacts.pending, (state) => { 
+      state.contacts.isLoading = true
+      })
+      .addCase(getContacts.rejected, (state) => {
+        state.contacts.isLoading = false
+      })
+    .addCase(getContacts.fulfilled, (state, action) => { 
+      console.log(action.payload)
+      state.contacts.isLoading = false
+      state.contacts.items = action.payload
+     
+      })
+  }
+  
 })
 
 // Action creators are generated for each case reducer function
-export const { addUser } = usersSlice.actions
+export const { addContact, deleteContact, filterUser, fetchContacts } = usersSlice.actions
 
 export default usersSlice.reducer

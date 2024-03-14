@@ -1,14 +1,13 @@
 import { useState } from 'react'
 import styles from './ContactForm.module.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { addUser } from '../../redux/actions'
+import { addContact } from '../../redux/actions'
 
 
 export default function ContactForm() {
   const [name, setName] = useState('')
   const [number, setNumber]= useState('')
-  const users = useSelector((state)=> state.users.contacts)
-  
+  const users = useSelector((state)=> state.users.contacts.items)
   const dispatch = useDispatch()
 
   const handleUpdateContacts = (e) => { 
@@ -19,7 +18,7 @@ export default function ContactForm() {
       alert(`${name} is already in contacts.`)
 
     } else {
-      dispatch(addUser(name, number))
+      dispatch(addContact(name, number))
     }
 
     form.reset()

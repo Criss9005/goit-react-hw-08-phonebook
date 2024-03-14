@@ -3,16 +3,24 @@ import ContactForm from './ContactForm/ContactForm'
 import ContactList from './ContactList/ContactList'
 import Filter from './Filter/Filter'
 import { useSelector, useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getContacts } from '../redux/usersSlice'
+
+
+
 
 
 
 export default function App() {
   
-  const users = useSelector((state) => state.users.contacts)
+  const users = useSelector((state) => state.users.contacts.items)
+  const  isLoading = useSelector((state) => state.users.contacts.isLoading)
   const [filteredContact, setFilteredContacts]= useState('')
   const dispatch = useDispatch()
- 
+  
+  useEffect(() => { 
+    dispatch(getContacts())
+  },[dispatch])
   
   function handleFilter(e){ 
     dispatch(filterUser(e.target.value))
@@ -23,6 +31,7 @@ export default function App() {
     
   }
 
+ 
  return (
     <div style={{
         height: '100vh',
@@ -32,14 +41,11 @@ export default function App() {
         color: '#010101',
         paddingLeft: 40
       }}>
-        <h1>Phonebook</h1>
-        <ContactForm />      
-        <h2>Contacts</h2>
-      <Filter handleFilter={handleFilter}/>
-      <ContactList filteredContact={filteredContact } />
-      
-             
-        
-      </div>
+     <h1>Phonebook</h1>
+     <ContactForm />      
+     <h2>Contacts</h2>
+     <Filter handleFilter={handleFilter} />
+     { (isLoading)? <h1>Is Loading...</h1>: <ContactList filteredContact={filteredContact } />}
+    </div>
   )
 }
