@@ -15,7 +15,6 @@ export default function App() {
  
   
   function handleFilter(e){ 
-    
     dispatch(filterUser(e.target.value))
     setFilteredContacts(users.filter((user) =>
             user.name.toLowerCase().includes(e.target.value.toLowerCase())
