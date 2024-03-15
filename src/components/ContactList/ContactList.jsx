@@ -32,9 +32,6 @@ export default function ContactList({filteredContact }) {
     })
 
   }
-
-  
-
   return (
     <ul>{listContacts }</ul>
   )
