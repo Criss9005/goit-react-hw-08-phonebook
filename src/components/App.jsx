@@ -1,51 +1,26 @@
-import { filterUser } from '../redux/actions'
-import ContactForm from './ContactForm/ContactForm'
-import ContactList from './ContactList/ContactList'
-import Filter from './Filter/Filter'
-import { useSelector, useDispatch } from 'react-redux'
-import { useEffect, useState } from 'react'
-import { getContacts } from '../redux/usersSlice'
+import { Routes, Route  } from "react-router-dom";
+import { Suspense } from "react";
+import Register from "pages/Register/Register";
+import Home from "pages/Home/Home";
+import Contacts from "pages/Contacts/Contacts"
+import Navigation from "./Navigation/Navigation";
 
-
-
-
-
-
-export default function App() {
-  
-  const users = useSelector((state) => state.users.contacts.items)
-  const  isLoading = useSelector((state) => state.users.contacts.isLoading)
-  const [filteredContact, setFilteredContacts]= useState('')
-  const dispatch = useDispatch()
-  
-  useEffect(() => { 
-    dispatch(getContacts())
-  },[dispatch])
-  
-  function handleFilter(e){ 
-    dispatch(filterUser(e.target.value))
-    setFilteredContacts(users.filter((user) =>
-            user.name.toLowerCase().includes(e.target.value.toLowerCase())
-          )
-      )
-    
-  }
-
+const App = () => {
  
- return (
-    <div style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        fontSize: 20,
-        color: '#010101',
-        paddingLeft: 40
-      }}>
-     <h1>Phonebook</h1>
-     <ContactForm />      
-     <h2>Contacts</h2>
-     <Filter handleFilter={handleFilter} />
-     { (isLoading)? <h1>Is Loading...</h1>: <ContactList filteredContact={filteredContact } />}
-    </div>
-  )
-}
+  return (
+   
+    <Suspense fallback={ <div>Loading...</div>}>
+    <Navigation/>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/contacts" element={<Contacts />} />
+        
+      </Routes>
+    </Suspense>
+  
+     
+  );
+};
+
+export default App

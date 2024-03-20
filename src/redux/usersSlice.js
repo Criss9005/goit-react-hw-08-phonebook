@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-const url = 'https://65f30e87105614e6549fb3a3.mockapi.io/contacts/contacts';
+const url = 'https://connections-api.herokuapp.com/contacts';
 
 const initialState = {
   contacts: {
@@ -12,13 +12,15 @@ const initialState = {
 }
 
 export const getContacts = createAsyncThunk('users/getContacts', () => { 
+  const token = localStorage.getItem("token")
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   return axios.get(url)
-    .then(function(response){
+    .then(function (response) {
       return response.data
     })
     .catch(function (error) {
     // manejar error
-    console.log(error);
+    //console.log(error);
   })
 })
 
@@ -34,22 +36,22 @@ export const usersSlice = createSlice({
       id: action.payload.id
       })
       .then(function (response) {
-        console.log(response);
+        //console.log(response);
       })
       .catch(function (error) {
-        console.log(error);
+       // console.log(error);
       });
       
     },
     deleteContact: (state, action) => {
       const index = state.contacts.items.findIndex(user => user.id === action.payload)
       state.contacts.items.splice(index, 1)
-      axios.delete(`https://65f30e87105614e6549fb3a3.mockapi.io/contacts/contacts/${action.payload }`)
+      axios.delete(`${url}/${action.payload }`)
       .then(function (response) {
-        console.log(response);
+        //console.log(response);
       })
       .catch(function (error) {
-        console.log(error);
+       // console.log(error);
       }); 
     },
     filterUser: (state, action) => {
@@ -66,7 +68,7 @@ export const usersSlice = createSlice({
         state.contacts.isLoading = false
       })
     .addCase(getContacts.fulfilled, (state, action) => { 
-      console.log(action.payload)
+      //console.log(action.payload)
       state.contacts.isLoading = false
       state.contacts.items = action.payload
      
