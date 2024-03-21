@@ -23,8 +23,8 @@ export default function UserMenu() {
 
   return (
     <div>
-          <p>mango@mail.com</p>
-        <button onClick={e =>handleLogOut()}>Logout</button>
+          {/* <p>mango@mail.com</p>
+        <button onClick={e =>handleLogOut()}>Logout</button> */}
     </div>
   )
 }
