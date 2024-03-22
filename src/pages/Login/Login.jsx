@@ -1,52 +1,39 @@
-import React, {  useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { register } from '../../redux/auth/actions'
+import React, { useState } from 'react'
 import { Button, TextField, OutlinedInput, IconButton, InputLabel, InputAdornment, FormControl } from '@mui/material'
-import { VisibilityOff, Visibility } from '@mui/icons-material';
-import style from './Register.module.css'
+import {VisibilityOff,Visibility  } from '@mui/icons-material';
+import { useDispatch} from 'react-redux';
+import { logIn } from '../../redux/auth/actions';
+import style from './Login.module.css'
 
-export default function Register() {
+
+function Home() {
 
   const [mail, setMail] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
-  const dispatch = useDispatch()
-  
-   const handleForm = (e) => { 
-    e.preventDefault()
-     dispatch(register({
-       email: mail,
-       password: password,
-       name: name
-     }))
-     e.target.reset()
-     
-  }
-
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const dispatch = useDispatch()
+
+  const handleForm = (e) => { 
+    e.preventDefault()
+    dispatch(logIn({ email: mail, password: password }))
+    e.target.reset()
+  }
+
+  
 
   return (
-    <div>
-      
-
-      <form className={style.box} onSubmit={(e) => handleForm(e)}>
-        <TextField
-          label="name"
-          id="outlined-start-adornment"
-          sx={{ m: 1, width: '30ch' }}
-          name='name'required onChange={(e) => setName(e.target.value)}
-        />
+    <form className={ style.box} onSubmit={(e) => handleForm(e)}>
          <TextField
           label="Email"
           id="outlined-start-adornment"
-          sx={{ m: 1, width: '30ch' }}
-          name='email'required onChange={(e) => setMail(e.target.value)}
+          sx={{ m: 1, width: '25ch' }}
+          name='mail'required onChange={(e) => setMail(e.target.value)}
         />
-        <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined">
+        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
@@ -71,16 +58,8 @@ export default function Register() {
         
       <Button className={style.btn }type="submit" variant="contained">Login</Button>
       </form>
-
-
-
-
-
-
-
-
-    </div>
+        
   )
 }
 
-
+export default Home

@@ -14,14 +14,17 @@ const initialState = {
 export const getContacts = createAsyncThunk('users/getContacts', () => { 
   const token = localStorage.getItem("token")
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  return axios.get(url)
-    .then(function (response) {
-      return response.data
+  if (token) { 
+
+    return axios.get(url)
+      .then(function (response) {
+        return response.data
+      })
+      .catch(function (error) {
+      // manejar error
+      //console.log(error);
     })
-    .catch(function (error) {
-    // manejar error
-    //console.log(error);
-  })
+  }
 })
 
 export const usersSlice = createSlice({

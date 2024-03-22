@@ -1,30 +1,22 @@
+import { logOut } from '../../redux/auth/actions';
 import React from 'react'
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import styles from './UserMenu.module.css'
+import LogoutIcon from '@mui/icons-material/Logout';
+import { IconButton } from '@mui/material';
 
+function UserMenu() {
 
-export default function UserMenu() {
-
-    const handleLogOut = () => {
-        const token = localStorage.getItem("token")
-        if (token) { 
-            axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-            axios.post('https://connections-api.herokuapp.com/users/logout')
-          
-            .then(function (response) {
-                console.log(response)
-                localStorage.clear()
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        }
-        
-    }
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user)
+  
 
   return (
-    <div>
-          {/* <p>mango@mail.com</p>
-        <button onClick={e =>handleLogOut()}>Logout</button> */}
+    <div className={ styles.usermenu}>
+      <p>{ user.name}</p>
+      <IconButton className={styles.btn } onClick={()=> dispatch(logOut())}><LogoutIcon/></IconButton>
     </div>
   )
 }
+
+export default UserMenu

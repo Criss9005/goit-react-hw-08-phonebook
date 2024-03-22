@@ -1,10 +1,11 @@
-import { filterUser } from '../../redux/actions'
+import { filterUser } from '../../redux/users/actions'
 import ContactForm from '../../components/ContactForm/ContactForm'
 import ContactList from '../../components/ContactList/ContactList'
 import Filter from '../../components/Filter/Filter'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { getContacts } from '../../redux/usersSlice'
+import { getContacts } from '../../redux/users/usersSlice'
+
 
 
 export default function App() {
@@ -16,9 +17,12 @@ export default function App() {
   const [token,setToken]=useState('')
 
   useEffect(() => { 
-    dispatch(getContacts())
-    setToken(localStorage.getItem("token"))
-  },[dispatch])
+    
+      dispatch(getContacts())
+      setToken(localStorage.getItem("token"))
+  
+  }, [dispatch])
+  
   
   function handleFilter(e){ 
     dispatch(filterUser(e.target.value))
@@ -40,6 +44,7 @@ return (
       color: '#010101',
       paddingLeft: 40
     }}>
+    
      <h1>Phonebook</h1>
      <ContactForm />      
      <h2>Contacts</h2>
