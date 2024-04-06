@@ -46,7 +46,7 @@ export const logIn = createAsyncThunk(
       localStorage.setItem("token", res.data.token)
       return  res.data
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return alert('Incorrect Email or Password ');
     }
   }
 );

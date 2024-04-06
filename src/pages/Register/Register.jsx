@@ -35,7 +35,7 @@ export default function Register() {
 
       <form className={style.box} onSubmit={(e) => handleForm(e)}>
         <TextField
-          label="name"
+          label="Name"
           id="outlined-start-adornment"
           sx={{ m: 1, width: '30ch' }}
           name='name'required onChange={(e) => setName(e.target.value)}
