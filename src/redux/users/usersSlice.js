@@ -18,11 +18,12 @@ export const getContacts = createAsyncThunk('users/getContacts', () => {
 
     return axios.get(url)
       .then(function (response) {
+        console.log(response.data)
         return response.data
       })
       .catch(function (error) {
       // manejar error
-      //console.log(error);
+      console.log(error);
     })
   }
 })

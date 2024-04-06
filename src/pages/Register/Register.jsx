@@ -4,6 +4,20 @@ import { register } from '../../redux/auth/actions'
 import { Button, TextField, OutlinedInput, IconButton, InputLabel, InputAdornment, FormControl } from '@mui/material'
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import style from './Register.module.css'
+const Joi = require('joi');
+
+const schema = Joi.object({
+    name: Joi.string()
+         .min(3)
+         .max(30)
+        .required(),
+
+    password: Joi.string()
+        .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+
+    mail: Joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+})
 
 export default function Register() {
 
@@ -13,14 +27,20 @@ export default function Register() {
   const dispatch = useDispatch()
   
    const handleForm = (e) => { 
-    e.preventDefault()
-     dispatch(register({
-       email: mail,
-       password: password,
-       name: name
-     }))
-     e.target.reset()
-     
+     e.preventDefault()
+     const { error} = schema.validate({ name: name, password: password, mail: mail });
+     if (error) {
+       alert(error.message)
+     }
+     else {
+
+       dispatch(register({
+         email: mail,
+         password: password,
+         name: name
+       }))
+       e.target.reset()
+     }
   }
 
   const [showPassword, setShowPassword] = React.useState(false);

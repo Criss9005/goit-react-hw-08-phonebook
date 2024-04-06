@@ -14,6 +14,7 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
+    "joi": "^17.12.3",
     "jwt-decode": "^4.0.0",
     "nanoid": "^5.0.6",
     "persist": "^0.2.7",
